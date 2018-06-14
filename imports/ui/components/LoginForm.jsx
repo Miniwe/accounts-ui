@@ -555,9 +555,7 @@ class LoginForm extends Component {
   signOut() {
     Meteor.logout(() => {
       this.setState({formState: STATES.SIGN_IN, password: null});
-      this
-        .state
-        .onSignedOutHook();
+      this.state.onSignedOutHook();
       this.clearMessages();
       this.clearDefaultFieldValues();
     });
@@ -629,8 +627,10 @@ class LoginForm extends Component {
         if (error) {
           this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
         } else {
-          loginResultCallback(() => this.state.onSignedInHook());
-          this.setState({formState: STATES.PROFILE, password: null});
+          loginResultCallback(() => {
+            Meteor.setTimeout(() => this.state.onSignedInHook(), 100);
+          });
+          // this.setState({formState: STATES.PROFILE, password: null});
           this.clearDefaultFieldValues();
         }
       });
