@@ -1,36 +1,36 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Accounts } from 'meteor/accounts-base';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Accounts } from 'meteor/accounts-base'
 
 export class Field extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       mount: true
-    };
+    }
   }
 
   triggerUpdate() {
     // Trigger an onChange on inital load, to support browser prefilled values.
-    const { onChange } = this.props;
+    const { onChange } = this.props
     if (this.input && onChange) {
-      onChange({ target: { value: this.input.value } });
+      onChange({ target: { value: this.input.value || "" } })
     }
   }
 
   componentDidMount() {
-    this.triggerUpdate();
+    this.triggerUpdate()
   }
 
   componentDidUpdate(prevProps) {
     // Re-mount component so that we don't expose browser prefilled passwords if the component was
     // a password before and now something else.
     if (prevProps.id !== this.props.id) {
-      this.setState({mount: false});
+      this.setState({mount: false})
     }
     else if (!this.state.mount) {
-      this.setState({mount: true});
-      this.triggerUpdate();
+      this.setState({mount: true})
+      this.triggerUpdate()
     }
   }
 
@@ -45,10 +45,10 @@ export class Field extends React.Component {
       className = "field",
       defaultValue = "",
       message,
-    } = this.props;
-    const { mount = true } = this.state;
+    } = this.props
+    const { mount = true } = this.state
     if (type == 'notice') {
-      return <div className={ className }>{ label }</div>;
+      return <div className={ className }>{ label }</div>
     }
     return mount ? (
       <div className={ className }>
@@ -66,12 +66,12 @@ export class Field extends React.Component {
             {message.message}</span>
         )}
       </div>
-    ) : null;
+    ) : null
   }
 }
 
 Field.propTypes = {
   onChange: PropTypes.func
-};
+}
 
-Accounts.ui.Field = Field;
+Accounts.ui.Field = Field

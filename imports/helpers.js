@@ -72,16 +72,45 @@ export function validateEmail(email, showMessage, clearMessage) {
   }
 }
 
-export function validatePassword(password = '', showMessage, clearMessage){
+export function validatePassword(password = '', showMessage, clearMessage, fieldId = 'password'){
   if (password.length >= Accounts.ui._options.minimumPasswordLength) {
     return true;
   } else {
     // const errMsg = T9n.get("error.minChar").replace(/7/, Accounts.ui._options.minimumPasswordLength);
     const errMsg = "error.minChar"
-    showMessage(errMsg, 'warning', false, 'password');
+    showMessage(errMsg, 'warning', false, fieldId);
     return false;
   }
 };
+
+export function validateFirstName(firstName, showMessage, clearMessage, fieldId = 'firstName') {
+  if ( firstName ) {
+    return true;
+  } else {
+    showMessage("error.firstNameRequired", 'warning', false, fieldId);
+    return false;
+  }
+}
+
+export function validateLastName(lastName, showMessage, clearMessage, fieldId = 'lastName') {
+  if ( lastName ) {
+    return true;
+  } else {
+    showMessage("error.lastNameRequired", 'warning', false, fieldId);
+    return false;
+  }
+}
+
+export function validateRepeatPassword(repeatPassword, showMessage, clearMessage, password) {
+  if ( !repeatPassword ) {
+    showMessage('error.repeatPasswordRequired', 'warning', false, 'repeatPassword');
+    return false;
+  } else if (repeatPassword !== password) {
+    showMessage('error.repeatPasswordDontMatch', 'warning', false, 'repeatPassword');
+    return false;
+  }
+  return true;
+}
 
 export function validateUsername(username, showMessage, clearMessage, formState) {
   if ( username ) {
@@ -102,6 +131,8 @@ export function redirect(redirect) {
           Package['kadira:flow-router'].FlowRouter.go(redirect);
         } else if (Package['kadira:flow-router-ssr']) {
           Package['kadira:flow-router-ssr'].FlowRouter.go(redirect);
+        } else if (Accounts.ui._options.browserHistory) {
+          Accounts.ui._options.browserHistory.push(redirect);
         } else if (browserHistory) {
           browserHistory.push(redirect);
         } else {
