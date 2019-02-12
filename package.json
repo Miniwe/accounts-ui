@@ -1,9 +1,9 @@
 {
   "name": "accounts-ui",
-  "description": "Accounts UI for React Component in Meteor",
+  "description": "Accounts UI for React Component in Meteor [mCore Udapted]",
   "repository": {
     "type": "git",
-    "url": "https://github.com/studiointeract/accounts-ui.git"
+    "url": "git@github.com:Miniwe/accounts-ui.git"
   },
   "keywords": [
     "react",
